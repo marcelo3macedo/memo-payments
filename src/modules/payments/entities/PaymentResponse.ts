@@ -1,25 +1,28 @@
 import { v4 as uuid } from 'uuid';
 import { Column, CreateDateColumn, Entity, PrimaryColumn, DeleteDateColumn } from 'typeorm';
 
-@Entity('payments')
-export default class Payment {
+@Entity('payment_responses')
+export default class PaymentResponse {
   @PrimaryColumn()
   id: string;
 
   @Column()
-  application: string;
+  paymentId: string;
 
   @Column()
-  type: string;
+  externalId: string;
 
   @Column()
-  orderId: string;
+  status: string;
 
   @Column()
-  value: number;
+  qrCode: string;
 
   @Column()
-  callbackUrl: string;
+  ticketUrl: string;
+
+  @Column()
+  qrCodeBase64: string;
 
   @CreateDateColumn()
   createdAt: Date;

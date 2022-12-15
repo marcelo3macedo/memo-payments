@@ -1,11 +1,11 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm"
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm"
 
-export class CreatePayment1671109250531 implements MigrationInterface {
+export class CreatePaymentResponse1671124168915 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-              name: 'payments',
+              name: 'payment_responses',
               columns: [
                 {
                   name: 'id',
@@ -14,32 +14,31 @@ export class CreatePayment1671109250531 implements MigrationInterface {
                   isPrimary: true,
                 },
                 {
-                  name: 'application',
+                    name: 'paymentId',
+                    type: 'char',
+                    length: '64',
+                },
+                {
+                  name: 'externalId',
                   type: 'varchar',
                 },
                 {
-                  name: 'statement',
-                  type: 'varchar',
-                },
-                {
-                    name: 'type',
+                    name: 'status',
                     type: 'varchar',
+                    length: '800'
                 },
                 {
-                    name: 'orderId',
-                    type: 'varchar',
-                },
-                {
-                  name: 'email',
+                  name: 'qrCode',
                   type: 'varchar',
+                  length: '800'
                 },
                 {
-                    name: 'value',
-                    type: 'decimal',
-                    precision: 2
+                    name: 'ticketUrl',
+                    type: 'varchar',
+                    length: '800'
                 },
                 {
-                    name: 'callbackUrl',
+                    name: 'qrCodeBase64',
                     type: 'varchar',
                     length: '8000'
                 },
@@ -56,11 +55,20 @@ export class CreatePayment1671109250531 implements MigrationInterface {
                 },
               ],
             })
-        ); 
+        );
+
+        await queryRunner.createForeignKey(
+            'payment_responses',
+            new TableForeignKey({
+              columnNames: ['paymentId'],
+              referencedTableName: 'payments',
+              referencedColumnNames: ['id']
+            })
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('payments');
+        await queryRunner.dropTable('payment_responses');
     }
 
 }
