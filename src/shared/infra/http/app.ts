@@ -2,8 +2,10 @@ import 'reflect-metadata';
 import 'express-async-errors';
 import express from 'express';
 import { container } from 'tsyringe';
-import '@shared/container';
+
 import { Amqp } from '../amqp';
+import '@shared/infra/typeorm';
+import '@shared/container';
 
 const app = express()
 app.use(express.json())
