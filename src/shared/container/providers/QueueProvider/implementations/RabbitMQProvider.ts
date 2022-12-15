@@ -1,6 +1,7 @@
 import { connect, Message } from "amqplib";
 import { IQueueProvider } from "../IQueueProvider";
 import queue from "@config/queue";
+import { Console } from "winston/lib/winston/transports";
 
 class RabbitMQProvider implements IQueueProvider {
     private conn;
@@ -17,9 +18,19 @@ class RabbitMQProvider implements IQueueProvider {
         })
         
         return this.channel.consume(queue, (message) => {
-            callback(JSON.parse(message.content));
+            if (this.isJSON(message.content)) {
+                callback(JSON.parse(message.content));
+            }            
             this.channel.ack(message)
         })
+    }
+
+    isJSON(str) {
+        try {
+            return (JSON.parse(str) && !!str);
+        } catch (e) {
+            return false;
+        }
     }
 }
 
