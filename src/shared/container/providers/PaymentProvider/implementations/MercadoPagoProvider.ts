@@ -23,7 +23,7 @@ class MercadoPagoProvider implements IPaymentProvider {
                 },
                 payment_method_id: PAYMENT_PIX,
                 statement_descriptor: statement,
-                transaction_amount: value
+                transaction_amount: parseFloat(value)
             }
         }
 

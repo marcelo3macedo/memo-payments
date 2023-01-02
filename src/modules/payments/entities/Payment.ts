@@ -10,6 +10,12 @@ export default class Payment {
   application: string;
 
   @Column()
+  statement: string;
+
+  @Column()
+  email: string;
+
+  @Column()
   type: string;
 
   @Column()

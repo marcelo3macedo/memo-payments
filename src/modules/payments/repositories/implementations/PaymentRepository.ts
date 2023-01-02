@@ -11,9 +11,11 @@ export class PaymentRepository implements IPaymentRepository {
     this.repository = AppDataSource.getRepository(Payment);
   }
 
-  async create({ application, type, orderId, value, callbackUrl }): Promise<Payment> {
+  async create({ application, statement, email, type, orderId, value, callbackUrl }): Promise<Payment> {
     const payment = this.repository.create({
-        application, 
+        application,
+        statement,
+        email,
         type, 
         orderId, 
         value, 
